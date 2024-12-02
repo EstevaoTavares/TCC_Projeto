@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="globals.css" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Pagamento</title>
+  </head>
+    <body>
+        <div class="resumo">
+            <div class="div">
+                <div class="head">
+                    <div class="overlap-8">
+                            <div class="frase-slogan">
+                                <div class="rectangle-10"></div>
+                                <p class="text-wrapper-28">
+                                Na SweetCupCake, cada mordida é uma explosão de sabor e alegria. Venha nos conhecer!
+                                </p>
+                            </div>
+                            <div class="text-wrapper-29" onclick="irParainicio()">SweetCupCake</div>
+                            <div class="text-wrapper-30" onclick="irParadepoimentos()">Depoimentos</div>
+                        
+                            <div class="text-wrapper-31">Bem Vindo!</div>
+                            <div class="incio">
+                                <div class="overlap-11">
+                                <div class="rectangle-11"></div>
+                                <div class="text-wrapper-32" onclick="irParainicio()">Início</div>
+                                </div>
+                            </div>
+                            <div class="text-wrapper-33"  onclick="irParaMenu()">Menu</div>
+                            <a href="index.html#localizacao" class="lojas-button">
+                                <div class="text-wrapper-34">Lojas</div>
+                            </a>
+                            <div class="text-wrapper-35" onclick="irParaquem()">Quem Somos</div>
+                            
+                            <img class="user" src="imagem/user.png"  onclick="irParalogar()"/>
+                        
+                    </div>
+                </div>
+                        <div class="corpo">
+                            <div class="pedido">
+                                <div class="confirma-o-do-pedido">Confirmação <br />do <br />Pedido</div>
+                                <div class="rectangle" id="selected-products">
+                                    <h2 class="ProdutosSelecionados">Produtos Selecionados</h2>
+                                    <div id="products-container"></div>
+                                    <div id="total-container">
+                                        <p id="total-price">Total a pagar: R$ 0,00</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pagamento">
+                            <div class="overlap">
+                                <div class="overlap-group">
+                                <div class="div">
+                                    <div class="rectangle-2" id="add-card-section" onclick="openCardPopup()"">
+                                        <div class="text-wrapper"onclick="openCardPopup()"">+</div>
+                                    
+                                        
+                                    
+                                    </div>
+                                    <div class="escolha">
+                                    <div class="overlap-group-2">
+                                        <label>
+                                            <input class="ellipse" type="radio" name="payment" value="cartao">
+                                            <div class="text-wrapper-2">Cartão de Crédito</div>
+                                        </label>
+                                        
+                                    </div>
+                        
+                                    </div>
+                                </div>
+                                <div class="text-wrapper-3" onclick="openCardPopup()">Adicionar Cartão</div>
+                                <div id="card-popup" class="popup hidden">
+                                    <div class="popup-content">
+                                        <h2>Adicionar Novo Cartão</h2>
+                                        <label for="card-number">Número do Cartão:</label>
+                                        <input type="text" id="card-number" maxlength="16" placeholder="Ex.: 1234 5678 9012 3456">
+                                        <label for="card-name">Nome no Cartão:</label>
+                                        <input type="text" id="card-name" placeholder="Ex.: João da Silva">
+                                        <label for="card-expiry">Data de Validade:</label>
+                                        <input type="month" id="card-expiry">
+                                        <label for="card-cvv">CVV:</label>
+                                        <input type="text" id="card-cvv" maxlength="3" placeholder="Ex.: 123">
+                                        <button onclick="saveCard()">Salvar</button>
+                                        <button class="close-button" onclick="closeCardPopup()">Fechar</button>
+                                    </div>
+                                </div>
+
+                                <div id="add-card-container">
+                                    <div class="text-wrapper-19" onclick="showAddCardPopup()">Mostrar Cartao Salvo</div>
+                                    <div id="added-cards"></div> <!-- Aqui os cartões adicionados aparecerão -->
+                                </div>
+                        
+                                </div>
+                                <div class="escolha-2">
+                                    <label>
+                                        <input class="ellipse" type="radio" name="payment" value="boleto">
+                                        <div class="text-wrapper-4">Boleto Bancário (Serviço Indisponivel)</div>
+                                    </label>
+                                
+                                </div>
+                                <div class="overlap-wrapper">
+                                <div class="overlap-2">
+                                 <label>
+                                    <input class="ellipse" type="radio" name="payment" value="pix">
+                                    <div class="text-wrapper-5">PIX (Serviço Indisponivel)</div>
+                                    
+                                </label>
+                                    
+                                </div>
+                                </div>
+                            </div>
+                            <p class="p">Escolha a forma de pagamento</p>
+                            </div>
+                            <div class="escolhadeentrega">
+                            <div class="overlap-3">
+                        
+                               
+                                
+                                <div class="overlap-group-3">
+                                
+                                    <label>
+                                        <input  class="ellipse" type="radio" name="delivery" value="retirar">
+                                        <div class="text-wrapper-9">Retirar na Loja</div>
+                                    </label>
+
+                                    
+                                    <p class="text-wrapper-10" onclick="openMapPopup()">Clique aqui para ver a loja mais próxima</p>
+
+                                        <!-- Popup -->
+                                        <div id="map-popup" class="popup hidden">
+                                            <div class="popup-content">
+                                                <h2>Encontre a loja mais próxima</h2>
+                                                <label for="address-input">Digite seu endereço:</label>
+                                                <input type="text" id="address-input" placeholder="Ex.: Rua Principal, São Paulo">
+                                                <button onclick="searchNearestStore()">Procurar</button>
+                                                <button class="close-button" onclick="closeMapPopup()">Fechar</button>
+
+                                                <!-- Mapa do Google -->
+                                                <iframe 
+                                                    id="google-map"
+                                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.843822728192!2d-122.41941548468102!3d37.77492927975859!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808581528b0075fd%3A0x8d4d6b4cde9b4525!2sYour%20Store%20Location!5e0!3m2!1sen!2sbr!4v1686064543010!5m2!1sen!2sbr"
+                                                    width="100%" 
+                                                    height="400" 
+                                                    style="border:0;" 
+                                                    allowfullscreen="" 
+                                                    loading="lazy" 
+                                                    referrerpolicy="no-referrer-when-downgrade">
+                                                </iframe>
+                                            </div>
+                                        </div>
+                                </div>
+                                
+                                <label>
+                                    <input  class="ellipse-2" type="radio" name="delivery" value="entregar">
+                                    <div class="text-wrapper-11">Entrega em Casa</div>
+                                </label>
+                                <label > 
+                                    <input class="img" type="text" id="cep" placeholder="Ex.: 00000-000">
+                                    <div class="cep"><div class="text-wrapper-8">CEP:</div></div>
+                                </label>
+                                
+                                <div class="rua">
+                                <label class="text-wrapper-12">Rua: <input class="rectangle-3" type="text" id="street" placeholder="Ex.: Rua Principal"></label>
+                                
+                                </div>
+                                <div class="cidade">
+                                    <label class="text-wrapper-13"></label>Cidade: <input  class="rectangle-4"type="text" id="city" placeholder="Ex.: São Paulo"></label>
+                                
+                                </div>
+                                <div class="numero">
+                                <label class="text-wrapper-14" >Número: <input class="rectangle-5" type="text" id="number" placeholder="Ex.: 123"></label>
+                            
+                                </div>
+                                <div class="overlap-4">
+                                <label  class="text-wrapper-15" >Bairro: <input class="rectangle-4" type="text" id="neighborhood" placeholder="Ex.: Centro"></label>
+            
+                                </div>
+                
+                            </div>
+                            <div class="text-wrapper-17">Escolha como Receber:</div>
+                            </div>
+                            <div class="confirmar">
+                                <button class="div-wrapper" onclick=" finalizarCompra()">
+                                    <div class="text-wrapper-18">Confirmar</div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+        <script>
+          function loadOrderFromLocal() {
+            const productsContainer = document.getElementById("products-container");
+            const totalPriceElement = document.getElementById("total-price");
+
+            // Recuperar os itens do localStorage
+            const order = JSON.parse(localStorage.getItem("cartItems"));
+
+            if (!order || order.length === 0) {
+                productsContainer.innerHTML = "<p>Não há itens no carrinho.</p>";
+                return;
+            }
+
+            let totalPrice = 0;
+
+            // Limpa o container antes de exibir os itens
+            productsContainer.innerHTML = "";
+
+            // Exibir cada item do pedido
+            order.forEach((item) => {
+                const productElement = document.createElement("div");
+                productElement.classList.add("product-item");
+                productElement.innerHTML = `
+                    <p><strong>${item.name}</strong></p>
+                    <p>Preço: R$ ${item.price.toFixed(2)}</p>
+                    <p>Quantidade: ${item.quantity}</p>
+                    <p>Total: R$ ${item.total.toFixed(2)}</p>
+                `;
+                productsContainer.appendChild(productElement);
+                totalPrice += item.total;
+            });
+
+            // Exibir o preço total
+            totalPriceElement.textContent = `Total a pagar: R$ ${totalPrice.toFixed(2)}`;
+        }  
+
+        // Função para finalizar a compra
+        function finalizarCompra() {
+                alert("Compra finalizada com sucesso! Avisaremos quando estiver prontos para envio ou retira. Obrigado.");
+                localStorage.removeItem("cartItems"); // Limpa o carrinho
+                window.location.href = "index.html"; // Redireciona para a página inicial
+            }
+
+
+            // Executa a função ao carregar a página
+            document.addEventListener("DOMContentLoaded", loadOrderFromLocal);
+
+            const address = localStorage.getItem("userAddress") || "endereço padrão"; // Exemplo
+            const googleMap = document.getElementById('google-map');
+            const storeQuery = "loja de cupcakes mais próxima";
+            const encodedAddress = encodeURIComponent(address);
+            const googleMapsUrl = `https://www.google.com/maps/embed/v1/search?q=${storeQuery}+perto+de+${encodedAddress}&key=YOUR_GOOGLE_MAPS_API_KEY`;
+            googleMap.src = googleMapsUrl;
+
+        // Alterna a exibição dos campos do cartão
+        function toggleCardFields() {
+            const cardFields = document.getElementById('card-fields');
+            cardFields.classList.toggle('hidden');
+        }
+
+        // Salva as informações do cartão
+        function saveCard() {
+            const cardNumber = document.getElementById('card-number').value.trim();
+            const cardName = document.getElementById('card-name').value.trim();
+            const cardExpiry = document.getElementById('card-expiry').value.trim();
+            const cardCvv = document.getElementById('card-cvv').value.trim();
+
+            // Validação simples
+            if (!cardNumber || !cardName || !cardExpiry || !cardCvv) {
+                alert('Por favor, preencha todos os campos!');
+                return;
+            }
+
+            if (cardNumber.length !== 16 || isNaN(cardNumber)) {
+                alert('Número do cartão inválido. Deve conter 16 dígitos.');
+                return;
+            }
+
+            if (cardCvv.length !== 3 || isNaN(cardCvv)) {
+                alert('CVV inválido. Deve conter 3 dígitos.');
+                return;
+            }
+
+            // Simulação de salvamento (pode ser adaptado para backend)
+            const cardData = {
+                number: cardNumber,
+                name: cardName,
+                expiry: cardExpiry,
+                cvv: cardCvv,
+            };
+
+            console.log('Cartão salvo:', cardData);
+
+            // Feedback ao usuário
+            alert('Cartão salvo com sucesso!');
+
+            // Ocultar os campos após salvar
+            document.getElementById('card-fields').classList.add('hidden');
+        }
+
+        function irParaMenu() {
+        window.location.href = "menu.html"; // Substitua com o nome da sua página de menu
+        }
+        function irParainicio() {
+        window.location.href = "index.html"; // Substitua com o nome da sua página de menu
+        }
+        function irParaquem() {
+        window.location.href = "QuemSomos.html"; // Substitua com o nome da sua página de menu
+        }
+        function irParadepoimentos() {
+        window.location.href = "depoimentos.html"; // Substitua com o nome da sua página de menu
+        } function irParalogar() {
+        window.location.href = "logar.html"; // Substitua com o nome da sua página de menu
+        }
+
+        // Abre o popup do mapa
+        function openMapPopup() {
+            const popup = document.getElementById("map-popup");
+            popup.classList.remove("hidden");
+            popup.classList.add("visible");
+        }
+
+        // Fecha o popup do mapa
+        function closeMapPopup() {
+            const popup = document.getElementById("map-popup");
+            popup.classList.remove("visible");
+            popup.classList.add("hidden");
+        }
+
+        // Função para buscar a loja mais próxima
+        function searchNearestStore() {
+            const addressInput = document.getElementById("address-input").value.trim();
+            const googleMap = document.getElementById("google-map");
+
+            if (!addressInput) {
+                alert("Por favor, insira um endereço.");
+                return;
+            }
+
+            const storeQuery = "loja de cupcakes mais próxima";
+            const encodedAddress = encodeURIComponent(addressInput);
+            const googleMapsUrl = `https://maps.googleapis.com/maps/api/js?key=INSERT_YOUR_API_KEY&callback=initMap&v=weekly&solution_channel=GMP_CCS_distancematrix_v2`;
+
+
+            // Atualiza o iframe do Google Maps com o endereço
+            googleMap.src = googleMapsUrl;
+        }
+
+        // Evento para abrir o popup ao carregar (opcional)
+        document.addEventListener("DOMContentLoaded", () => {
+            const popup = document.getElementById("map-popup");
+            popup.classList.add("hidden"); // Inicialmente escondido
+        });
+
+       // Função para abrir o pop-up
+        function openCardPopup() {
+            const popup = document.getElementById('card-popup');
+            popup.classList.remove('hidden');
+        }
+
+        // Função para fechar o pop-up
+        function closeCardPopup() {
+            const popup = document.getElementById('card-popup');
+            popup.classList.add('hidden');
+        }
+
+        // Previne o fechamento ao clicar dentro do conteúdo do pop-up
+        document.getElementById('card-popup').addEventListener('click', function (event) {
+            const popupContent = document.querySelector('.popup-content');
+            if (!popupContent.contains(event.target)) {
+                // Fechar somente se o clique for fora do conteúdo
+                closeCardPopup();
+            }
+        });
+
+        // Função para salvar as informações do cartão
+        function saveCard() {
+            const cardNumber = document.getElementById('card-number').value.trim();
+            const cardName = document.getElementById('card-name').value.trim();
+            const cardExpiry = document.getElementById('card-expiry').value.trim();
+            const cardCvv = document.getElementById('card-cvv').value.trim();
+
+            // Validação simples
+            if (!cardNumber || !cardName || !cardExpiry || !cardCvv) {
+                alert('Por favor, preencha todos os campos!');
+                return;
+            }
+
+            if (cardNumber.length !== 16 || isNaN(cardNumber)) {
+                alert('Número do cartão inválido. Deve conter 16 dígitos.');
+                return;
+            }
+
+            if (cardCvv.length !== 3 || isNaN(cardCvv)) {
+                alert('CVV inválido. Deve conter 3 dígitos.');
+                return;
+            }
+
+            // Simulação de salvamento (pode ser adaptado para backend)
+            const cardData = {
+                number: cardNumber,
+                name: cardName,
+                expiry: cardExpiry,
+                cvv: cardCvv,
+            };
+
+            console.log('Cartão salvo:', cardData);
+
+            // Feedback ao usuário
+            alert('Cartão salvo com sucesso!');
+
+            // Fecha o pop-up após salvar
+            closeCardPopup();
+        }
+
+        // Exibir popup de adicionar cartão
+        function showAddCardPopup() {
+            document.getElementById("add-card-popup").classList.remove("hidden");
+        }
+
+        // Fechar popup de adicionar cartão
+        function closeAddCardPopup() {
+            document.getElementById("add-card-popup").classList.add("hidden");
+        }
+
+        // Salvar cartão e exibir na lista
+        function saveCard() {
+            const cardName = document.getElementById("card-name").value.trim();
+            const cardNumber = document.getElementById("card-number").value.trim();
+            const cardExpiry = document.getElementById("card-expiry").value.trim();
+            const cardCvv = document.getElementById("card-cvv").value.trim();
+
+            if (!cardName || !cardNumber || !cardExpiry || !cardCvv) {
+                alert("Por favor, preencha todos os campos!");
+                return;
+            }
+
+            if (cardNumber.length !== 16 || isNaN(cardNumber)) {
+                alert("Número do cartão inválido. Deve conter 16 dígitos.");
+                return;
+            }
+
+            if (cardCvv.length !== 3 || isNaN(cardCvv)) {
+                alert("CVV inválido. Deve conter 3 dígitos.");
+                return;
+            }
+
+            // Exibir o cartão adicionado na lista
+            const addedCardsContainer = document.getElementById("added-cards");
+
+            const maskedCardNumber = cardNumber.replace(/\d{12}(\d{4})/, "**** **** **** $1");
+
+            const cardElement = document.createElement("div");
+            cardElement.classList.add("card-item");
+            cardElement.innerHTML = `
+                <div><strong>Nome:</strong> ${cardName}</div>
+                <div><strong>Cartão:</strong> ${maskedCardNumber}</div>
+                <div><strong>Validade:</strong> ${cardExpiry}</div>
+            `;
+
+            addedCardsContainer.appendChild(cardElement);
+
+            // Limpar os campos do popup
+            document.getElementById("card-name").value = "";
+            document.getElementById("card-number").value = "";
+            document.getElementById("card-expiry").value = "";
+            document.getElementById("card-cvv").value = "";
+
+            // Fechar o popup
+            closeAddCardPopup();
+        }
+
+
+        
+        // Adicionar ao carrinho e mostrar o carrinho
+        function addToCart(itemName, itemPrice, quantityId) {
+            const quantityInput = document.getElementById(quantityId); // Obtém o campo de quantidade
+            const quantity = parseInt(quantityInput.value) || 1;
+
+            if (quantity <= 0) {
+                alert("Por favor, insira uma quantidade válida.");
+                return;
+            }
+
+            const hasDiscount = quantity >= 50; // Mais de 50 unidades
+            const discountRate = hasDiscount ? 0.25 : 0; // 25% de desconto
+            const discountedPrice = itemPrice * (1 - discountRate); // Aplica o desconto
+
+            const item = {
+                id: Date.now(),
+                name: itemName,
+                price: itemPrice,
+                quantity: quantity,
+                total: discountedPrice * quantity,
+                hasDiscount: hasDiscount,
+            };
+
+            cart.push(item);
+            updateCartDisplay();
+            openCart();
+        }
+
+        // Atualiza a exibição do carrinho no DOM
+        function updateCartDisplay() {
+            const cartList = document.getElementById('cart-list');
+            const totalElement = document.getElementById('total-price');
+
+            cartList.innerHTML = '';
+            cart.forEach((item) => {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `
+                    ${item.name} - R$ ${item.price.toFixed(2)} x ${item.quantity} = R$ ${item.total.toFixed(2)}
+                    ${item.hasDiscount ? '<span class="discount-label">Desconto aplicado (25%)</span>' : ''}
+                    <button class="remove-item" onclick="removeFromCart(${item.id})">Remover</button>
+                `;
+                cartList.appendChild(listItem);
+            });
+
+            totalElement.textContent = `R$ ${calculateTotal().toFixed(2)}`;
+        }
+
+        // Calcula o total do carrinho
+        function calculateTotal() {
+            return cart.reduce((sum, item) => sum + item.total, 0);
+        }
+
+        // Remover item do carrinho
+        function removeFromCart(itemId) {
+            const itemIndex = cart.findIndex((item) => item.id === itemId);
+            if (itemIndex > -1) {
+                cart.splice(itemIndex, 1);
+            }
+            updateCartDisplay();
+        }
+
+        // Abrir o carrinho
+        function openCart() {
+            const cartElement = document.getElementById('side-cart');
+            cartElement.classList.add('visible');
+            cartElement.classList.remove('hidden');
+        }
+
+        // Fechar o carrinho
+        function closeCart() {
+            const cartElement = document.getElementById('side-cart');
+            cartElement.classList.remove('visible');
+            cartElement.classList.add('hidden');
+        }
+
+
+
+        </script>
+
+   
+    </body>
+</html>

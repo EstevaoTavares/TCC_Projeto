@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="globals.css" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Depoimentos</title>
+  </head>
+    <body>
+        <div class="depoimentos">
+            <div class="div">
+                <div class="head">
+                    <div class="overlap-8">
+                            <div class="frase-slogan">
+                                <div class="rectangle-10"></div>
+                                <p class="text-wrapper-28">
+                                Na SweetCupCake, cada mordida é uma explosão de sabor e alegria. Venha nos conhecer!
+                                </p>
+                            </div>
+                            <div class="text-wrapper-29" onclick="irParainicio()">SweetCupCake</div>
+                            <div class="text-wrapper-30" onclick="irParadepoimentos()">Depoimentos</div>
+                        
+                            <div class="text-wrapper-31">Bem Vindo!</div>
+                            <div class="incio">
+                                <div class="overlap-11">
+                                <div class="rectangle-11"></div>
+                                <div class="text-wrapper-32" onclick="irParainicio()">Início</div>
+                                </div>
+                            </div>
+                            <div class="text-wrapper-33"  onclick="irParaMenu()">Menu</div>
+                            <a href="index.html#localizacao" class="lojas-button">
+                                <div class="text-wrapper-34">Lojas</div>
+                            </a>
+                            <div class="text-wrapper-35" onclick="irParaquem()">Quem Somos</div>
+                            
+                            <img class="user" src="imagem/user.png"  onclick="irParalogar()"/>
+                            <img class="favorite-cart" src="imagem/carrinho.png" alt="Carrinho" onclick="openCart()" />
+                        
+                    </div>
+                </div>
+                <div class="corpo">
+                    <div class="header">
+                        <h1>O que nossos clientes falam</h1>
+                        <p>A sua satisfação  é a nossa maior recompensa!</p>
+                      </div>
+                    
+                      <div class="comments-section">
+                        <h2>Comentários dos Clientes</h2>
+                        <div id="comments-container">
+                          <!-- Comentários serão exibidos aqui dinamicamente -->
+                        </div>
+                    
+                        <div class="add-comment">
+                          <h2>Deixe seu comentário</h2>
+                          <input type="text" id="author" placeholder="Seu nome" required>
+                          <textarea id="comment" rows="4" placeholder="Escreva seu comentário aqui..." required></textarea>
+                          <button onclick="addComment()">Enviar Comentário</button>
+                        </div>
+                      </div>
+
+                       <!-- Estrutura do Carrinho -->
+                       <div id="side-cart" class="side-cart hidden">
+                        <div class="cart-header">
+                            <h2>🛒 Seu Carrinho</h2>
+                            <button class="close-cart" onclick="closeCart()">×</button>
+                                
+                        
+                        </div>
+                        <ul id="cart-list"></ul>
+                        <div id="total-container">
+                            <strong>Total a pagar:</strong>
+                            <span id="total-price">R$ 0,00</span>
+                        </div>
+
+                        <div id="confirm-container">
+                            <button id="confirm-button" onclick="confirmarCompra()">Confirmar Compra</button>
+                        </div>
+                        
+                    </div>
+                    
+                      <script >
+                        // Função para carregar comentários do localStorage
+                        function loadComments() {
+                          const commentsContainer = document.getElementById('comments-container');
+                          commentsContainer.innerHTML = ''; // Limpa a lista de comentários
+                          const comments = JSON.parse(localStorage.getItem('comments')) || [];
+                          comments.forEach((comment, index) => {
+                            const commentDiv = document.createElement('div');
+                            commentDiv.className = 'comment';
+                            commentDiv.innerHTML = `
+                              <p class="author">${comment.author}</p>
+                              <p class="date">${comment.date}</p>
+                              <p class="text">${comment.text}</p>
+                              <div class="actions">
+                                <button onclick="editComment(${index})">Editar</button>
+                                <button onclick="deleteComment(${index})">Apagar</button>
+                              </div>
+                            `;
+                            commentsContainer.appendChild(commentDiv);
+                          });
+                        }
+                    
+                        // Função para adicionar um novo comentário
+                        function addComment() {
+                          const author = document.getElementById('author').value;
+                          const commentText = document.getElementById('comment').value;
+                    
+                          if (!author || !commentText) {
+                            alert('Por favor, preencha todos os campos!');
+                            return;
+                          }
+                    
+                          const newComment = {
+                            author,
+                            text: commentText,
+                            date: new Date().toLocaleString('pt-BR')
+                          };
+                    
+                          // Adiciona o novo comentário à lista de comentários
+                          const comments = JSON.parse(localStorage.getItem('comments')) || [];
+                          comments.push(newComment);
+                          localStorage.setItem('comments', JSON.stringify(comments));
+                    
+                          // Limpa os campos do formulário
+                          document.getElementById('author').value = '';
+                          document.getElementById('comment').value = '';
+                    
+                          // Recarrega os comentários
+                          loadComments();
+                        }
+                    
+                        // Função para editar um comentário
+                        function editComment(index) {
+                          const comments = JSON.parse(localStorage.getItem('comments')) || [];
+                          const comment = comments[index];
+                    
+                          // Preenche os campos com os valores do comentário existente
+                          document.getElementById('author').value = comment.author;
+                          document.getElementById('comment').value = comment.text;
+                    
+                          // Remove o comentário antigo
+                          comments.splice(index, 1);
+                          localStorage.setItem('comments', JSON.stringify(comments));
+                    
+                          // Recarrega os comentários
+                          loadComments();
+                        }
+                    
+                        // Função para apagar um comentário
+                        function deleteComment(index) {
+                          const comments = JSON.parse(localStorage.getItem('comments')) || [];
+                          comments.splice(index, 1);
+                          localStorage.setItem('comments', JSON.stringify(comments));
+                          loadComments();
+                        }
+                    
+                        // Carrega os comentários ao abrir a página
+                        loadComments();
+
+
+                        function irParaMenu() {
+                        window.location.href = "menu.html"; // Substitua com o nome da sua página de menu
+                        }
+                        function irParainicio() {
+                        window.location.href = "index.html"; // Substitua com o nome da sua página de menu
+                        }
+                        function irParaquem() {
+                        window.location.href = "QuemSomos.html"; // Substitua com o nome da sua página de menu
+                        }
+                        function irParadepoimentos() {
+                        window.location.href = "depoimentos.html"; // Substitua com o nome da sua página de menu
+                        } function irParalogar() {
+                        window.location.href = "logar.html"; // Substitua com o nome da sua página de menu
+                        }
+                                                // Atualiza a exibição do carrinho no DOM
+                        function updateCartDisplay() {
+                            const cartList = document.getElementById('cart-list');
+                            const totalElement = document.getElementById('total-price');
+
+                            cartList.innerHTML = '';
+                            cart.forEach((item) => {
+                                const listItem = document.createElement('li');
+                                listItem.innerHTML = `
+                                    ${item.name} - R$ ${item.price.toFixed(2)} x ${item.quantity} = R$ ${item.total.toFixed(2)}
+                                    ${item.hasDiscount ? '<span class="discount-label">Desconto aplicado (25%)</span>' : ''}
+                                    <button class="remove-item" onclick="removeFromCart(${item.id})">Remover</button>
+                                `;
+                                cartList.appendChild(listItem);
+                            });
+
+                            totalElement.textContent = `R$ ${calculateTotal().toFixed(2)}`;
+                        }
+
+                        // Calcula o total do carrinho
+                        function calculateTotal() {
+                            return cart.reduce((sum, item) => sum + item.total, 0);
+                        }
+
+                        // Remover item do carrinho
+                        function removeFromCart(itemId) {
+                            const itemIndex = cart.findIndex((item) => item.id === itemId);
+                            if (itemIndex > -1) {
+                                cart.splice(itemIndex, 1);
+                            }
+                            updateCartDisplay();
+                        }
+
+                        // Abrir o carrinho
+                        function openCart() {
+                            const cartElement = document.getElementById('side-cart');
+                            cartElement.classList.add('visible');
+                            cartElement.classList.remove('hidden');
+                        }
+
+                        // Fechar o carrinho
+                        function closeCart() {
+                            const cartElement = document.getElementById('side-cart');
+                            cartElement.classList.remove('visible');
+                            cartElement.classList.add('hidden');
+                        }
+
+                        // Salvar pedido no Local Storage e redirecionar
+                        function confirmarCompra() {
+                            if (cart.length === 0) {
+                                alert("O carrinho está vazio! Adicione itens antes de confirmar.");
+                                return;
+                            }
+                            localStorage.setItem('cartItems', JSON.stringify(cart));
+                            window.location.href = 'resumo.html';
+                        }
+
+
+                        // Atualizar o carrinho ao carregar a página
+                        document.addEventListener('DOMContentLoaded', () => {
+                            updateCartDisplay();
+                            document.getElementById('confirmar-button').addEventListener('click', confirmarCompra);
+                        });
+
+
+                      </script>
+
+
+            </div>
+        </div>
+    </body>
+</html>

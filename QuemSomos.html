@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="globals.css" />
+    <link rel="stylesheet" href="style.css" />
+    <title>QuemSomos</title>
+  </head>
+  <body>
+    <div class="QuemSomos">
+        <div class="div">
+            <div class="head">
+                <div class="overlap-8">
+                        <div class="frase-slogan">
+                            <div class="rectangle-10"></div>
+                            <p class="text-wrapper-28">
+                            Na SweetCupCake, cada mordida é uma explosão de sabor e alegria. Venha nos conhecer!
+                            </p>
+                        </div>
+                        <div class="text-wrapper-29" onclick="irParainicio()">SweetCupCake</div>
+                        <div class="text-wrapper-30" onclick="irParadepoimentos()">Depoimentos</div>
+                      
+                      <div class="text-wrapper-31">Bem Vindo!</div>
+                      <div class="incio">
+                        <div class="overlap-11">
+                          
+                          <div class="text-wrapper-32" onclick="irParainicio()">Início</div>
+                        </div>
+                      </div>
+                      <div class="text-wrapper-33"  onclick="irParaMenu()">Menu</div>
+                      <a href="#idelocalizacao" class="lojas-button">
+                        <div class="text-wrapper-34">Lojas</div>
+                      </a>
+                      <div class="text-wrapper-35" onclick="irParaquem()">Quem Somos</div>
+                    
+                      <img class="user" src="imagem/user.png"  onclick="irParalogar()"/>
+                    <img class="favorite-cart" src="imagem/carrinho.png" alt="Carrinho" onclick="openCart()"/>
+                </div>
+                <div class="overlap-14">
+                    <div class="text-wrapper-40">Quem Somos Nós</div>
+                    <div class="div-2">Venha conhecer a SweetCupCake</div>
+                    <div class="div-3">Paixão pela Confeitaria</div>
+                    <div  class="div-4">
+                        Na SweetCupCake, acreditamos que cada mordida deve ser uma experiência inesquecível. Somos apaixonados por criar cupcakes que combinam sabor irresistível com um visual encantador. 
+                        Tudo começou com o desejo de espalhar doçura e felicidade através de receitas feitas com amor e ingredientes de alta qualidade. Nossos cupcakes são cuidadosamente preparados, 
+                        com opções que agradam desde os paladares mais clássicos até os mais aventureiros. Seja para comemorar momentos especiais ou simplesmente adoçar o dia, estamos aqui para tornar tudo mais delicioso. 
+                        Bem-vindo ao nosso mundo de sabor e criatividade!
+                    </div>
+                    <div class="div-5">Compromisso com a Qualidade</div>
+                    <div  class="div-6">
+                        Na nossa loja de cupcakes, o Compromisso com a Qualidade é mais que um lema — é a base de tudo o que fazemos. 
+                        Cada cupcake é preparado com ingredientes selecionados, garantindo frescor e sabor inigualáveis. Desde a escolha das melhores farinhas e chocolates até o cuidado em cada etapa da produção, 
+                        nosso objetivo é proporcionar uma experiência deliciosa e memorável para todos os nossos clientes.
+                        Estamos sempre buscando aperfeiçoar nossas receitas e explorar novas combinações, sem jamais abrir mão da excelência que você merece. Afinal, cada mordida precisa ser tão especial quanto o momento que você celebra. 
+                        Aqui, qualidade é a nossa prioridade!
+                    </div>
+                    <div class="div-7">Uma Equipe Dedicada</div>
+                    <div  class="div-8">
+                        Uma Equipe Dedicada que se empenha ao máximo para trazer o melhor em sabor e atendimento. Cada membro da nossa equipe é apaixonado pelo que faz, e isso se reflete em cada cupcake que sai da nossa cozinha. 
+                        Trabalhamos com cuidado e atenção para oferecer produtos frescos, deliciosos e feitos especialmente para você.
+                        Estamos sempre prontos para oferecer uma experiência única, com atendimento personalizado e um toque de carinho em cada detalhe.
+                        A nossa missão é fazer com que cada cliente se sinta único e satisfeito, pois acreditamos que a dedicação é o ingrediente secreto para o sucesso!
+                    </div>
+        
+                    <img class="rectangle" src="imagem/QuemSomos.png">
+                     <!-- Estrutura do Carrinho -->
+                    <div id="side-cart" class="side-cart hidden">
+                      <div class="cart-header">
+                          <h2>🛒 Seu Carrinho</h2>
+                          <button class="close-cart" onclick="closeCart()">×</button>
+                              
+                      
+                      </div>
+                      <ul id="cart-list"></ul>
+                      <div id="total-container">
+                          <strong>Total a pagar:</strong>
+                          <span id="total-price">R$ 0,00</span>
+                      </div>
+
+                      <div id="confirm-container">
+                          <button id="confirm-button" onclick="confirmarCompra()">Confirmar Compra</button>
+                      </div>
+                      
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script  src="script.js">
+      
+    
+    </script>
+  </body>
+</html>

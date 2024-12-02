@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="globals.css" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Login</title>
+  </head>
+    <body>
+        <div class="logar">
+            <div class="div">
+                <div class="head">
+                    <div class="overlap-8">
+                            <div class="frase-slogan">
+                                <div class="rectangle-10"></div>
+                                <p class="text-wrapper-28">
+                                Na SweetCupCake, cada mordida é uma explosão de sabor e alegria. Venha nos conhecer!
+                                </p>
+                            </div>
+                            <div class="text-wrapper-29" onclick="irParainicio()">SweetCupCake</div>
+                            <div class="text-wrapper-30" onclick="irParadepoimentos()">Depoimentos</div>
+                        
+                            <div class="text-wrapper-31">Bem Vindo!</div>
+                            <div class="incio">
+                                <div class="overlap-11">
+                                <div class="rectangle-11"></div>
+                                <div class="text-wrapper-32" onclick="irParainicio()">Início</div>
+                                </div>
+                            </div>
+                            <div class="text-wrapper-33"  onclick="irParaMenu()">Menu</div>
+                            <a href="index.html#localizacao" class="lojas-button">
+                                <div class="text-wrapper-34">Lojas</div>
+                            </a>
+                            <div class="text-wrapper-35" onclick="irParaquem()">Quem Somos</div>
+                            
+                            <img class="user" src="imagem/user.png"  onclick="irParalogar()"/>
+                            <img class="favorite-cart" src="imagem/carrinho.png" alt="Carrinho" onclick="openCart()" />
+                        
+                    </div>
+                </div>
+                <div class="corpo">
+                    <div class="login-container">
+                        <h1>Login</h1>
+                        <form id="loginForm">
+                          <div class="form-group">
+                            <label for="name">Nome de Usuário:</label>
+                            <input type="text" id="username" placeholder="Digite sua nome" required>
+                          </div>
+                          <div class="form-group">
+                            <label for="password">Senha:</label>
+                            <input type="password" id="password" name="password" placeholder="Digite sua senha" required>
+                          </div>
+                          <button type="button" class="login-button" onclick="login(event)">Entrar</button>
+                          <p class="error-message" id="errorMessage">E-mail ou senha inválidos. Tente novamente.</p>
+                        </form>
+                        <div class="extra-options">
+                          <p>Não tem uma conta? <a href="criarperfil.html"">Cadastre-se</a></p>
+                          <p>Esqueceu sua senha? <a href="recuperar-senha.html">Recuperar senha</a></p>
+                        </div>
+                      </div>
+
+                       <!-- Estrutura do Carrinho -->
+                        <div id="side-cart" class="side-cart hidden">
+                            <div class="cart-header">
+                                <h2>🛒 Seu Carrinho</h2>
+                                <button class="close-cart" onclick="closeCart()">×</button>
+                                    
+                            
+                            </div>
+                            <ul id="cart-list"></ul>
+                            <div id="total-container">
+                                <strong>Total a pagar:</strong>
+                                <span id="total-price">R$ 0,00</span>
+                            </div>
+
+                            <div id="confirm-container">
+                                <button id="confirm-button" onclick="confirmarCompra()">Confirmar Compra</button>
+                            </div>
+                            
+                        </div>
+                    
+                      <script>
+
+                        function irParaMenu() {
+                          window.location.href = "menu.html"; // Substitua com o nome da sua página de menu
+                        }
+                        function irParainicio() {
+                          window.location.href = "index.html"; // Substitua com o nome da sua página de menu
+                        }
+                        function irParaquem() {
+                          window.location.href = "QuemSomos.html"; // Substitua com o nome da sua página de menu
+                        }
+                        function irParadepoimentos() {
+                          window.location.href = "depoimentos.html"; // Substitua com o nome da sua página de menu
+                        }
+
+                        function irParalogar() {
+                          window.location.href = "logar.html"; // Substitua com o nome da sua página de menu
+                          }
+                          function irParaperfil() {
+                          window.location.href = "perfil.html"; // Substitua com o nome da sua página de menu
+                          }
+
+                          function login(event) {
+                      // Previne o comportamento padrão do formulário
+                      event.preventDefault();
+
+                      // Obtém os valores do formulário
+                      const username = document.getElementById("username").value.trim();
+                      const password = document.getElementById("password").value.trim();
+
+                      if (!username || !password) {
+                          alert("Por favor, preencha todos os campos!");
+                          return;
+                      }
+
+                      // Recupera os usuários do localStorage
+                      const users = JSON.parse(localStorage.getItem("users")) || [];
+
+                      // Verifica se existe um usuário com o nome e senha fornecidos
+                      const user = users.find(user => user.name === username && user.password === password);
+
+                      if (user) {
+                          alert("Login bem-sucedido!");
+                          localStorage.setItem("loggedInUser", JSON.stringify(user)); // Salva o usuário logado
+                          window.location.href = "perfil.html"; // Redireciona para a página do perfil
+                      } else {
+                          alert("Usuário ou senha incorretos!");
+                      }
+                  }
+
+                  
+        // Adicionar ao carrinho e mostrar o carrinho
+        function addToCart(itemName, itemPrice, quantityId) {
+            const quantityInput = document.getElementById(quantityId); // Obtém o campo de quantidade
+            const quantity = parseInt(quantityInput.value) || 1;
+
+            if (quantity <= 0) {
+                alert("Por favor, insira uma quantidade válida.");
+                return;
+            }
+
+            const hasDiscount = quantity >= 50; // Mais de 50 unidades
+            const discountRate = hasDiscount ? 0.25 : 0; // 25% de desconto
+            const discountedPrice = itemPrice * (1 - discountRate); // Aplica o desconto
+
+            const item = {
+                id: Date.now(),
+                name: itemName,
+                price: itemPrice,
+                quantity: quantity,
+                total: discountedPrice * quantity,
+                hasDiscount: hasDiscount,
+            };
+
+            cart.push(item);
+            updateCartDisplay();
+            openCart();
+        }
+
+        // Atualiza a exibição do carrinho no DOM
+        function updateCartDisplay() {
+            const cartList = document.getElementById('cart-list');
+            const totalElement = document.getElementById('total-price');
+
+            cartList.innerHTML = '';
+            cart.forEach((item) => {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `
+                    ${item.name} - R$ ${item.price.toFixed(2)} x ${item.quantity} = R$ ${item.total.toFixed(2)}
+                    ${item.hasDiscount ? '<span class="discount-label">Desconto aplicado (25%)</span>' : ''}
+                    <button class="remove-item" onclick="removeFromCart(${item.id})">Remover</button>
+                `;
+                cartList.appendChild(listItem);
+            });
+
+            totalElement.textContent = `R$ ${calculateTotal().toFixed(2)}`;
+        }
+
+        // Calcula o total do carrinho
+        function calculateTotal() {
+            return cart.reduce((sum, item) => sum + item.total, 0);
+        }
+
+        // Remover item do carrinho
+        function removeFromCart(itemId) {
+            const itemIndex = cart.findIndex((item) => item.id === itemId);
+            if (itemIndex > -1) {
+                cart.splice(itemIndex, 1);
+            }
+            updateCartDisplay();
+        }
+
+        // Abrir o carrinho
+        function openCart() {
+            const cartElement = document.getElementById('side-cart');
+            cartElement.classList.add('visible');
+            cartElement.classList.remove('hidden');
+        }
+
+        // Fechar o carrinho
+        function closeCart() {
+            const cartElement = document.getElementById('side-cart');
+            cartElement.classList.remove('visible');
+            cartElement.classList.add('hidden');
+        }
+                      </script>
+                </div>
+
+
+            </div>
+        </div>
+    </body>
+</html>

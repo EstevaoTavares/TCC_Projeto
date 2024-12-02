@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="globals.css" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Criar Perfil</title>
+  </head>
+    <body>
+        <div class="criarperfil">
+            <div class="div">
+                <div class="head">
+                    <div class="overlap-8">
+                            <div class="frase-slogan">
+                                <div class="rectangle-10"></div>
+                                <p class="text-wrapper-28">
+                                Na SweetCupCake, cada mordida é uma explosão de sabor e alegria. Venha nos conhecer!
+                                </p>
+                            </div>
+                            <div class="text-wrapper-29" onclick="irParainicio()">SweetCupCake</div>
+                            <div class="text-wrapper-30" onclick="irParadepoimentos()">Depoimentos</div>
+                        
+                            <div class="text-wrapper-31">Bem Vindo!</div>
+                            <div class="incio">
+                                <div class="overlap-11">
+                                <div class="rectangle-11"></div>
+                                <div class="text-wrapper-32" onclick="irParainicio()">Início</div>
+                                </div>
+                            </div>
+                            <div class="text-wrapper-33"  onclick="irParaMenu()">Menu</div>
+                            <a href="index.html#localizacao" class="lojas-button">
+                                <div class="text-wrapper-34">Lojas</div>
+                            </a>
+                            <div class="text-wrapper-35" onclick="irParaquem()">Quem Somos</div>
+                            
+                            <img class="user" src="imagem/user.png"  onclick="irParalogar()"/>
+                            <img class="favorite-cart" src="imagem/carrinho.png" alt="Carrinho" onclick="openCart()" />
+                        
+                    </div>
+                </div>
+                <div class="corpo">
+                    <div class="create-profile-container">
+                        <h1>Criar Perfil</h1>
+                        <form id="create-profile-form" onsubmit="register(event)">
+                          <div class="form-group">
+                              <label for="username">Nome Completo</label>
+                              <input type="text" id="name" name="name" placeholder="Digite seu nome completo" required>
+                          </div>
+                      
+                          <div class="form-group">
+                              <label for="email">E-mail</label>
+                              <input type="email" id="email" name="email" placeholder="Digite seu e-mail" required>
+                          </div>
+                      
+                          <div class="form-group">
+                              <label for="password">Senha</label>
+                              <input type="password" id="password" name="password" placeholder="Digite sua senha" required>
+                          </div>
+                      
+                          <div class="form-group">
+                              <label for="confirm-password">Confirme a Senha</label>
+                              <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirme sua senha" required>
+                          </div>
+                      
+                          <div class="form-group">
+                              <label for="address">Endereço</label>
+                              <input type="text" id="address" name="address" placeholder="Digite seu endereço">
+                          </div>
+                      
+                          <div class="form-group">
+                              <label for="phone">Telefone</label>
+                              <input type="tel" id="phone" name="phone" placeholder="Digite seu telefone">
+                          </div>
+                      
+                          <button type="submit" class="submit-button">Criar Perfil</button>
+                      </form>
+                      </div> 
+                       <!-- Estrutura do Carrinho -->
+                        <div id="side-cart" class="side-cart hidden">
+                            <div class="cart-header">
+                                <h2>🛒 Seu Carrinho</h2>
+                                <button class="close-cart" onclick="closeCart()">×</button>
+                                    
+                            
+                            </div>
+                            <ul id="cart-list"></ul>
+                            <div id="total-container">
+                                <strong>Total a pagar:</strong>
+                                <span id="total-price">R$ 0,00</span>
+                            </div>
+
+                            <div id="confirm-container">
+                                <button id="confirm-button" onclick="confirmarCompra()">Confirmar Compra</button>
+                            </div>
+                            
+                        </div> 
+                </div>
+                <script>
+                        function irParaMenu() {
+                        window.location.href = "menu.html"; // Substitua com o nome da sua página de menu
+                        }
+                        function irParainicio() {
+                        window.location.href = "index.html"; // Substitua com o nome da sua página de menu
+                        }
+                        function irParaquem() {
+                        window.location.href = "QuemSomos.html"; // Substitua com o nome da sua página de menu
+                        }
+                        function irParadepoimentos() {
+                        window.location.href = "depoimentos.html"; // Substitua com o nome da sua página de menu
+                        }
+
+                        function irParalogar() {
+                        window.location.href = "logar.html"; // Substitua com o nome da sua página de menu
+                        }
+                       // Mostrar formulário de cadastro
+                      function showRegister() {
+                          document.getElementById("login-form").classList.add("hidden");
+                          document.getElementById("register-form").classList.remove("hidden");
+                      }
+
+                      // Esconder formulário de cadastro
+                      function hideRegister() {
+                          document.getElementById("register-form").classList.add("hidden");
+                          document.getElementById("login-form").classList.remove("hidden");
+                      }
+
+                      function register(event) {
+                        // Evita o comportamento padrão do formulário
+                        event.preventDefault();
+
+                        // Captura os valores dos campos
+                        const name = document.getElementById("name").value.trim();
+                        const email = document.getElementById("email").value.trim();
+                        const password = document.getElementById("password").value.trim();
+                        const confirmPassword = document.getElementById("confirm-password").value.trim();
+                        const address = document.getElementById("address").value.trim();
+                        const phone = document.getElementById("phone").value.trim();
+
+                        // Verificação básica de validação
+                        if (!name || !email || !password || !confirmPassword) {
+                            alert("Por favor, preencha todos os campos obrigatórios!");
+                            return;
+                        }
+
+                        if (password !== confirmPassword) {
+                            alert("As senhas não coincidem!");
+                            return;
+                        }
+
+                        // Simulando armazenamento no LocalStorage
+                        const users = JSON.parse(localStorage.getItem("users")) || [];
+                        if (users.some(user => user.email === email)) {
+                            alert("Já existe um usuário com este e-mail!");
+                            return;
+                        }
+
+                        users.push({ name, email, password, address, phone });
+                        localStorage.setItem("users", JSON.stringify(users));
+
+                        alert("Perfil criado com sucesso!");
+                        window.location.href = "logar.html"; // Redireciona para a página de login
+                    }
+                    
+        // Adicionar ao carrinho e mostrar o carrinho
+        function addToCart(itemName, itemPrice, quantityId) {
+            const quantityInput = document.getElementById(quantityId); // Obtém o campo de quantidade
+            const quantity = parseInt(quantityInput.value) || 1;
+
+            if (quantity <= 0) {
+                alert("Por favor, insira uma quantidade válida.");
+                return;
+            }
+
+            const hasDiscount = quantity >= 50; // Mais de 50 unidades
+            const discountRate = hasDiscount ? 0.25 : 0; // 25% de desconto
+            const discountedPrice = itemPrice * (1 - discountRate); // Aplica o desconto
+
+            const item = {
+                id: Date.now(),
+                name: itemName,
+                price: itemPrice,
+                quantity: quantity,
+                total: discountedPrice * quantity,
+                hasDiscount: hasDiscount,
+            };
+
+            cart.push(item);
+            updateCartDisplay();
+            openCart();
+        }
+
+        // Atualiza a exibição do carrinho no DOM
+        function updateCartDisplay() {
+            const cartList = document.getElementById('cart-list');
+            const totalElement = document.getElementById('total-price');
+
+            cartList.innerHTML = '';
+            cart.forEach((item) => {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `
+                    ${item.name} - R$ ${item.price.toFixed(2)} x ${item.quantity} = R$ ${item.total.toFixed(2)}
+                    ${item.hasDiscount ? '<span class="discount-label">Desconto aplicado (25%)</span>' : ''}
+                    <button class="remove-item" onclick="removeFromCart(${item.id})">Remover</button>
+                `;
+                cartList.appendChild(listItem);
+            });
+
+            totalElement.textContent = `R$ ${calculateTotal().toFixed(2)}`;
+        }
+
+        // Calcula o total do carrinho
+        function calculateTotal() {
+            return cart.reduce((sum, item) => sum + item.total, 0);
+        }
+
+        // Remover item do carrinho
+        function removeFromCart(itemId) {
+            const itemIndex = cart.findIndex((item) => item.id === itemId);
+            if (itemIndex > -1) {
+                cart.splice(itemIndex, 1);
+            }
+            updateCartDisplay();
+        }
+
+        // Abrir o carrinho
+        function openCart() {
+            const cartElement = document.getElementById('side-cart');
+            cartElement.classList.add('visible');
+            cartElement.classList.remove('hidden');
+        }
+
+        // Fechar o carrinho
+        function closeCart() {
+            const cartElement = document.getElementById('side-cart');
+            cartElement.classList.remove('visible');
+            cartElement.classList.add('hidden');
+        }
+                        
+
+
+
+                </script>
+
+
+            </div>
+        </div>
+    </body>
+</html>

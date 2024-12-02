@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="globals.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+    <body>
+        <div class="perfil">
+            <div class="div">
+                <div class="head">
+                    <div class="overlap-8">
+                            <div class="frase-slogan">
+                                <div class="rectangle-10"></div>
+                                <p class="text-wrapper-28">
+                                Na SweetCupCake, cada mordida é uma explosão de sabor e alegria. Venha nos conhecer!
+                                </p>
+                            </div>
+                            <div class="text-wrapper-29" onclick="irParainicio()">SweetCupCake</div>
+                            <div class="text-wrapper-30" onclick="irParadepoimentos()">Depoimentos</div>
+                        
+                            <div class="text-wrapper-31">Bem Vindo!</div>
+                            <div class="incio">
+                                <div class="overlap-11">
+                                <div class="rectangle-11"></div>
+                                <div class="text-wrapper-32" onclick="irParainicio()">Início</div>
+                                </div>
+                            </div>
+                            <div class="text-wrapper-33"  onclick="irParaMenu()">Menu</div>
+                            <a href="index.html#localizacao" class="lojas-button">
+                                <div class="text-wrapper-34">Lojas</div>
+                            </a>
+                            <div class="text-wrapper-35" onclick="irParaquem()">Quem Somos</div>
+                            
+                            <img class="user" src="imagem/user.png"  onclick="irParalogar()"/>
+                            <img class="favorite-cart" src="imagem/carrinho.png" alt="Carrinho" onclick="openCart()" />
+                        
+                    </div>
+                </div>
+                <div class="corpo">
+                    <div class="profile-container">
+                        <h1>Seu Perfil</h1>
+                        <div class="profile-details">
+                          <div class="detail-item">
+                            <strong>Nome:</strong>
+                            <span id="profile-name"></span>
+                          </div>
+                          <div class="detail-item">
+                            <strong>E-mail:</strong>
+                            <span id="profile-email"></span>
+                          </div>
+                          <div class="detail-item">
+                            <strong>Endereço:</strong>
+                            <span id="profile-address"></span>
+                          </div>
+                          <div class="detail-item">
+                            <strong>Telefone:</strong>
+                            <span id="profile-phone"></span>
+                          </div>
+                        </div>
+                    
+                        <div class="profile-buttons">
+                          <button class="edit-button" onclick="editProfile()">Editar Perfil</button>
+                          <button class="home-button"onclick="irParainicio()">Voltar ao Início</button>
+                          <button onclick="logout()">Sair</button>
+                        </div>
+                      </div>
+                </div>
+
+                 <!-- Estrutura do Carrinho -->
+                  <div id="side-cart" class="side-cart hidden">
+                      <div class="cart-header">
+                          <h2>🛒 Seu Carrinho</h2>
+                          <button class="close-cart" onclick="closeCart()">×</button>
+                              
+                      
+                      </div>
+                      <ul id="cart-list"></ul>
+                      <div id="total-container">
+                          <strong>Total a pagar:</strong>
+                          <span id="total-price">R$ 0,00</span>
+                      </div>
+
+                      <div id="confirm-container">
+                          <button id="confirm-button" onclick="confirmarCompra()">Confirmar Compra</button>
+                      </div>
+                      
+                  </div>
+                <script>
+                  function irParaMenu() {
+                    window.location.href = "menu.html"; // Substitua com o nome da sua página de menu
+                  }
+                  function irParainicio() {
+                    window.location.href = "index.html"; // Substitua com o nome da sua página de menu
+                  }
+                  function irParaquem() {
+                    window.location.href = "QuemSomos.html"; // Substitua com o nome da sua página de menu
+                  }
+                  function irParadepoimentos() {
+                    window.location.href = "depoimentos.html"; // Substitua com o nome da sua página de menu
+                  }
+
+                  function irParalogar() {
+                    window.location.href = "logar.html"; // Substitua com o nome da sua página de menu
+                    }
+
+                    document.addEventListener("DOMContentLoaded", function () {
+                    // Recupera o usuário logado do localStorage
+                    const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+
+                    if (!loggedInUser) {
+                        alert("Nenhum usuário está logado. Redirecionando para a página de login.");
+                        window.location.href = "logar.html";
+                        return;
+                    }
+
+                    // Preenche os campos do perfil com os dados do usuário logado
+                    document.getElementById("profile-name").textContent = loggedInUser.name || "N/A";
+                    document.getElementById("profile-email").textContent = loggedInUser.email || "N/A";
+                    document.getElementById("profile-address").textContent = loggedInUser.address || "N/A";
+                    document.getElementById("profile-phone").textContent = loggedInUser.phone || "N/A";
+                });
+
+                // Função para fazer logout
+                function logout() {
+                    localStorage.removeItem("loggedInUser");
+                    alert("Você saiu da conta.");
+                    window.location.href = "logar.html";
+                }
+
+                
+        // Adicionar ao carrinho e mostrar o carrinho
+        function addToCart(itemName, itemPrice, quantityId) {
+            const quantityInput = document.getElementById(quantityId); // Obtém o campo de quantidade
+            const quantity = parseInt(quantityInput.value) || 1;
+
+            if (quantity <= 0) {
+                alert("Por favor, insira uma quantidade válida.");
+                return;
+            }
+
+            const hasDiscount = quantity >= 50; // Mais de 50 unidades
+            const discountRate = hasDiscount ? 0.25 : 0; // 25% de desconto
+            const discountedPrice = itemPrice * (1 - discountRate); // Aplica o desconto
+
+            const item = {
+                id: Date.now(),
+                name: itemName,
+                price: itemPrice,
+                quantity: quantity,
+                total: discountedPrice * quantity,
+                hasDiscount: hasDiscount,
+            };
+
+            cart.push(item);
+            updateCartDisplay();
+            openCart();
+        }
+
+        // Atualiza a exibição do carrinho no DOM
+        function updateCartDisplay() {
+            const cartList = document.getElementById('cart-list');
+            const totalElement = document.getElementById('total-price');
+
+            cartList.innerHTML = '';
+            cart.forEach((item) => {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `
+                    ${item.name} - R$ ${item.price.toFixed(2)} x ${item.quantity} = R$ ${item.total.toFixed(2)}
+                    ${item.hasDiscount ? '<span class="discount-label">Desconto aplicado (25%)</span>' : ''}
+                    <button class="remove-item" onclick="removeFromCart(${item.id})">Remover</button>
+                `;
+                cartList.appendChild(listItem);
+            });
+
+            totalElement.textContent = `R$ ${calculateTotal().toFixed(2)}`;
+        }
+
+        // Calcula o total do carrinho
+        function calculateTotal() {
+            return cart.reduce((sum, item) => sum + item.total, 0);
+        }
+
+        // Remover item do carrinho
+        function removeFromCart(itemId) {
+            const itemIndex = cart.findIndex((item) => item.id === itemId);
+            if (itemIndex > -1) {
+                cart.splice(itemIndex, 1);
+            }
+            updateCartDisplay();
+        }
+
+        // Abrir o carrinho
+        function openCart() {
+            const cartElement = document.getElementById('side-cart');
+            cartElement.classList.add('visible');
+            cartElement.classList.remove('hidden');
+        }
+
+        // Fechar o carrinho
+        function closeCart() {
+            const cartElement = document.getElementById('side-cart');
+            cartElement.classList.remove('visible');
+            cartElement.classList.add('hidden');
+        }
+                    
+
+                </script>
+
+
+
+            </div>
+        </div>
+    </body>
+</html>
